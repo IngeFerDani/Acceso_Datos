@@ -1,0 +1,121 @@
+ body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #fff7f9;
+      background-image: 
+        radial-gradient(#ffccd9 1.5px, transparent 1.5px),
+        radial-gradient(#ffe3ec 1.5px, #fff7f9 1.5px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+      color: #3b2a33;
+      min-height: 100vh;
+    }
+
+    /* Tarjeta principal espaciosa y ancha */
+    .login-container-card {
+      background: #ffffff;
+      max-width: 620px;
+      width: 100%;
+      border: 2px solid #ffd5e2;
+      border-radius: 2.25rem;
+      box-shadow: 0 20px 40px rgba(255, 112, 150, 0.12), 0 6px 16px rgba(255, 143, 171, 0.08);
+      position: relative;
+    }
+
+    /* Mascota auténtica de My Melody asomándose */
+    .peeking-character {
+      width: 130px;
+      height: 130px;
+      margin-top: -75px;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 10px 18px rgba(255, 112, 150, 0.3));
+    }
+    .peeking-character:hover {
+      transform: translateY(-5px) scale(1.05) rotate(-2deg);
+    }
+
+    /* Campos de formulario */
+    .input-group-kawaii {
+      border-radius: 50rem;
+      overflow: hidden;
+      border: 1.5px solid #ffccd9;
+      background-color: #fffbfe;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .input-group-kawaii:focus-within {
+      border-color: #ff7096;
+      box-shadow: 0 0 0 0.25rem rgba(255, 112, 150, 0.22);
+      background-color: #ffffff;
+    }
+    .input-group-kawaii .input-group-text {
+      background-color: transparent;
+      border: none;
+      color: #ff7096;
+      padding-left: 1.25rem;
+    }
+    .input-group-kawaii .form-control {
+      border: none;
+      background-color: transparent;
+      color: #3b2a33;
+      padding: 0.85rem 1.25rem 0.85rem 0.5rem;
+      font-size: 0.95rem;
+    }
+    .input-group-kawaii .form-control:focus {
+      box-shadow: none;
+    }
+
+    /* Botón Mostrar Contraseña */
+    .btn-toggle-eye {
+      background: transparent;
+      border: none;
+      color: #a78897;
+      padding-right: 1.25rem;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .btn-toggle-eye:hover {
+      color: #ff7096;
+    }
+
+    /* Botón Principal */
+    .btn-melody-primary {
+      background: linear-gradient(135deg, #ff7096 0%, #ff8fab 100%);
+      border: none;
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 50rem;
+      padding: 0.9rem 1.5rem;
+      font-size: 1.05rem;
+      box-shadow: 0 8px 20px rgba(255, 112, 150, 0.38);
+      transition: all 0.25s ease;
+    }
+    .btn-melody-primary:hover {
+      background: linear-gradient(135deg, #f05e86 0%, #ff7e9e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(255, 112, 150, 0.45);
+      color: #ffffff;
+    }
+    .btn-melody-primary:active {
+      transform: translateY(1px);
+    }
+
+    /* Checkbox personalizado */
+    .form-check-input:checked {
+      background-color: #ff7096;
+      border-color: #ff7096;
+      box-shadow: 0 0 0 0.2rem rgba(255, 112, 150, 0.2);
+    }
+
+    /* Demo Chip */
+    .demo-box {
+      background-color: #fff2f6;
+      border: 1.5px dashed #ffaec3;
+      border-radius: 50rem;
+      padding: 0.55rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .demo-box:hover {
+      background-color: #ffe6ef;
+      border-color: #ff7096;
+    }

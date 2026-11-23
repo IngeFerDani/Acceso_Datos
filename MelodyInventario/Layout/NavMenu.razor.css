@@ -1,0 +1,105 @@
+
+
+/* Sidebar */
+.melody-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: #ffeff8;
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem 1rem;
+    box-shadow: 0 10px 25px -4px rgba(255, 112, 150, 0.16);
+    transition: all 0.3s ease;
+}
+
+/* Colores utilizados */
+.text-melody-primary {
+    color:  #aa2f56 !important;
+}
+
+.text-melody-variant {
+    color:  #574145 !important;
+}
+
+.text-melody-on-primary-container {
+    color: #720030!important;
+}
+
+.bg-melody-primary-container {
+    background-color: #ff7096 !important;
+}
+
+.bg-melody-surface-high {
+    background-color: #f9e2f1 !important;
+}
+
+/* Borde del logo */
+.border-melody-pink {
+    border-color: rgba(255, 112, 150, 0.3) !important;
+}
+
+/* Tarjeta inferior */
+.rounded-4 {
+    border-radius: 1.25rem !important;
+}
+
+.shadow-soft {
+    box-shadow: 0 4px 18px -2px rgba(255, 112, 150, 0.12);
+}
+
+/* Enlaces del menú */
+
+::deep .melody-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.65rem;
+    padding: 0.6rem 1rem;
+    border-radius: 50rem;
+    color: #574145 !important;
+    text-decoration: none;
+    font-size: 14px !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+::deep .melody-nav-link:hover {
+    background-color: #f9e2f1 !important;
+    color: #574145 !important;
+}
+
+::deep .melody-nav-link span {
+    color: #574145 !important;
+}
+
+/* ENLACE SELECCIONADO */
+
+::deep .melody-nav-link.active {
+    background-color: #ff7096 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px -2px rgba(255, 112, 150, 0.35);
+}
+
+::deep .melody-nav-link.active span {
+    color: #ffffff !important;
+}
+
+/* Corazón oculto */
+
+::deep .melody-nav-link .favorite-icon {
+    display: none;
+}
+
+/* Corazón cuando está seleccionado */
+
+::deep .melody-nav-link.active .favorite-icon {
+    display: inline-block;
+    color: #ffffff !important;
+    font-size: 16px !important;
+}

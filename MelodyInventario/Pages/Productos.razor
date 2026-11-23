@@ -1,0 +1,836 @@
+@page "/productos"
+@using MelodyInventario.Models
+@inject SweetAlertService Swal
+@inject HttpClient Http
+
+<div class="card border-0 rounded-4 shadow-soft p-4 mb-4 position-relative overflow-hidden"
+     style="background-color: var(--melody-surface-low);">
+    <!-- Ambient glowing circles -->
+    <div class="position-absolute rounded-circle"
+         style="top: -50px; right: -50px; width: 220px; height: 220px; background: rgba(255, 177, 193, 0.4); filter: blur(50px); pointer-events: none;">
+    </div>
+    <div class="position-absolute rounded-circle"
+         style="bottom: -60px; left: 35%; width: 260px; height: 260px; background: rgba(253, 222, 100, 0.25); filter: blur(60px); pointer-events: none;">
+    </div>
+    <div class="position-relative z-1 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+        <div class="d-flex flex-column flex-md-row align-items-center gap-4 text-center text-md-start">
+            <!-- Avatar Sticker -->
+            <div class="position-relative flex-shrink-0">
+                <div class="rounded-4 bg-white p-1 shadow-sm border border-2 border-melody-pink overflow-hidden d-flex align-items-center justify-content-center"
+                     style="width: 100px; height: 100px;">
+                    <img alt="My Melody Oficial" class="w-100 h-100 object-fit-cover rounded-3"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu-Wvk4CrEITPaPbu9pqFG9XPrneOwDgQktWmlXe6jMmxEBh3y6C4WwIVq6jyCm2a9sQPcfCtGJX2xmK0aBSLhD-30xGrbP5DO3sWVIOkOtRZjJ59OtpOga5jSKVX3GfOMaW88IT_OwVfYlf1nEP1gYnqdST32JFF83r8jjYERyvzw8eJOQ3V9XcMDOhMpgoAQP5nrY6RGoi3mFRKzGLHvnF42kSX6-HunNclbnp6sYduBQ0tbkN_3uYoW1_JcjMBgsw" />
+                </div>
+                <span
+                    class="position-absolute top-0 start-0 translate-middle-y badge rounded-pill bg-melody-primary-container text-white px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    🍓 My Melody
+                </span>
+                <span
+                    class="position-absolute bottom-0 end-0 translate-middle-y badge rounded-pill bg-melody-secondary-container text-melody-on-secondary-container px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    ✨ Mascota Oficial
+                </span>
+            </div>
+            <div>
+                <div class="d-inline-flex align-items-center gap-1 badge rounded-pill bg-melody-surface-highest text-melody-primary px-3 py-1 mb-2 text-uppercase fw-bold"
+                     style="font-size: 0.72rem; letter-spacing: 0.05rem;">
+                    <span class="material-symbols-outlined" style="font-size: 14px;">verified</span> Boutique Central •
+                    Almacén Verificado
+                </div>
+                <h1 class="fw-bolder mb-1 text-melody-on-surface d-flex align-items-center justify-content-center justify-content-md-start gap-2"
+                    style="font-size: 1.85rem;">
+                    <span>¡Hola Melody Admin!</span>
+                    <span class="text-melody-primary">🌸</span>
+                </h1>
+                <p class="text-melody-variant mb-0" style="font-size: 0.95rem;">
+                    Gestiona existencias de productos kawaii, actualiza entradas y salidas al instante con auditoría en
+                    tiempo real.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-4 align-items-start">
+    <!-- LEFT COLUMN: Inventory Catalog Table (col-lg-8) -->
+    <div class="col-12 col-lg-6">
+<div class="card">
+    <div class="card-body">
+
+        <h5>⚠️ Alertas de inventario</h5>
+        <h6>🟡Stock debajo del minimo 🔴Sin stock</h6>
+        <br />
+        @foreach (var producto in productosAlerta)
+        {
+            <div class="mb-2">
+
+                @if (producto.estado == "Sin stock")
+                {
+                    <span>🔴</span>
+                }
+                else
+                {
+                    <span>🟡</span>
+                }
+
+                <strong>@producto.nombre</strong>
+
+                <span>
+                    Stock: @producto.stock_actual
+                </span>
+
+            </div>
+        }
+
+    </div>
+</div>
+    </div>
+</div>
+<br />
+<div class="row g-4 align-items-start">
+    <!-- LEFT COLUMN: Inventory Catalog Table (col-lg-8) -->
+    <div class="col-12 col-lg-8">
+        <center><img src="Images/Melody-Tabla.png" class="img-MelodyTabla" /></center>
+        <div class="card border-0 rounded-4 bg-white shadow-soft overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-kawaii align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Categoría</th>
+                            <th class="text-center">Proveedor</th>
+                            <th class="text-center">Precio compra</th>
+                            <th class="text-center">Stock actual</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @foreach (var producto in datosproductos)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @producto.nombre
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    @producto.categoria
+                                </td>
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @producto.proveedor
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    $@producto.precio_compra
+                                </td>
+
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @producto.stock_actual
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="d-flex flex-column gap-4">
+            <!-- Movement Registration Card -->
+            <div class="card border-0 rounded-4 p-3 p-xl-4 bg-white shadow-soft position-relative">
+                <!-- Cute Ribbon Badge in Corner -->
+                <span
+                    class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-melody-secondary-container text-melody-on-secondary-container px-3 py-1 shadow-sm me-3 fw-bold"
+                    style="font-size: 0.75rem;">
+                    🎀 Registro Rápido
+                </span>
+                <div class="mb-3">
+                    <h3 class="fs-5 fw-bold text-melody-primary mb-1 d-flex align-items-center gap-1">
+                        <span>🌸 Registrar Movimiento</span>
+                    </h3>
+                    <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">
+                        Ingresa un ajuste de inventario en tiempo real con trazabilidad.
+                    </p>
+                </div>
+                <!-- Friendly Helper Banner with Avatar -->
+                <div
+                    class="d-flex align-items-center gap-2 p-2 rounded-4 bg-melody-surface-low border border-melody-pink mb-3">
+                    <div class="d-flex flex-column">
+                        <span class="fw-bold text-melody-primary lh-1" style="font-size: 0.78rem;">🍓 Melody te
+                            acompaña</span>
+                            <span class="text-melody-variant lh-sm mt-1" style="font-size: 0.7rem;">¡Registra tus ingresos y
+                                egresos con amor para que todo el almacén esté feliz!</span>
+                            </div>
+                        </div>
+                        <!-- Form Controls -->
+                        <EditForm Model="@movimiento" OnValidSubmit="RegistrarMovimiento" class="d-flex flex-column gap-3">
+                            <!-- Movement Type Radio/Button Pill Switcher -->
+                            <div>
+                                <label class="form-label text-uppercase text-melody-variant fw-bold mb-1"
+                                       style="font-size: 0.72rem; letter-spacing: 0.04em;">
+                                    Tipo de Movimiento
+                                </label>
+
+                                <div class="movement-buttons">
+                                    <input type="radio" name="tipoMovimiento" id="btnTypeIn" checked
+                                           @onchange="SeleccionarEntrada">
+                                    <label for="btnTypeIn">🟢 Entrada</label>
+
+                                    <input type="radio" name="tipoMovimiento" id="btnTypeOut" @onchange="SeleccionarSalida">
+                                    <label for="btnTypeOut">🔴 Salida</label>
+
+                                    <input type="radio" name="tipoMovimiento" id="btnTypeAdj" @onchange="SeleccionarAjuste">
+                                    <label for="btnTypeAdj">🔄 Ajuste</label>
+                                </div>
+                            </div>
+                            <!-- Product Selector -->
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <label class="form-label text-uppercase text-melody-variant fw-bold mb-0" for="prodSelect"
+                                           style="font-size: 0.72rem; letter-spacing: 0.04em;">Seleccionar Producto</label>
+                                </div>
+                                <select @bind="movimiento.idProducto"
+                                        class="form-select rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface fw-semibold"
+                                        id="prodSelect" style="font-size: 0.85rem;">
+                                    <option value="0" disabled>Selecciona un producto...</option>
+                                    @foreach (var producto in productos)
+                                    {
+                                        <option value="@producto.id_producto">@producto.nombre</option>
+                                    }
+                                </select>
+                                <p>ID seleccionado: @movimiento.idProducto</p>
+                            </div>
+                            <!-- Quantity Stepper Counter -->
+                            <div>
+                                <label class="form-label text-uppercase text-melody-variant fw-bold mb-1"
+                                       style="font-size: 0.72rem; letter-spacing: 0.04em;">Cantidad de Unidades</label>
+                                <div class="input-group bg-melody-surface-low p-1 rounded-pill border border-melody-pink">
+                                    <input @bind="movimiento.cantidad"
+                                           class="form-control text-center border-0 bg-transparent fw-bolder fs-5 text-melody-on-surface shadow-none"
+                                           max="9999" min="1" type="number" />
+                                    <span class="input-group-text border-0 bg-transparent text-melody-variant fw-semibold pe-2"
+                                          style="font-size: 0.85rem;">uds</span>
+                                </div>
+                            </div>
+                            <!-- Invoice / Doc -->
+                            <div>
+                                <label class="form-label text-uppercase text-melody-variant fw-bold mb-1"
+                                       style="font-size: 0.72rem;">Motivo</label>
+                                <input
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface px-3"
+                                placeholder="Ej: Devolución de Cliente" type="text" />
+                            </div>
+                            <!-- Action Buttons -->
+                            <div class="d-flex flex-column gap-2 pt-1">
+                                <button class="btn text-white fw-bold rounded-pill py-2 shadow-sm"
+                                        style="background-color: #ff7096;" type="submit">
+                                    💖 Registrar Movimiento
+                                </button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                         style="width: 38px; height: 38px;">
+                        <span class="material-symbols-outlined fs-5">add_box</span>
+                    </div>
+                    <div>
+                        <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                            <span class="">🍓 Registrar Nuevo Producto</span>
+                        </h3>
+                        <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos del producto para
+                            incorporarlo al inventario kawaii</p>
+                        </div>
+                    </div>
+                    <span
+                        class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                        Catálogo Kawaii</span>
+                    </div>
+                    <EditForm Model="@producto" OnValidSubmit="CreationProduct" class="row g-3">
+                        <DataAnnotationsValidator />
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Código de barras</label>
+                            <input type="text" @bind="producto.codigo_barras"
+                                   class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                   placeholder="MEL-0521">
+                            <ValidationMessage For="@(() => producto.codigo_barras)" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre del
+                                Producto</label>
+                                <input type="text" @bind="producto.nombre"
+                                       class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                       placeholder="Ej: Diadema Orejitas de Felpa">
+                                <ValidationMessage For="@(() => producto.nombre)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Categoría</label>
+                                <select @bind="producto.id_categoria"
+                                        class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                        style="font-size: 0.85rem;">
+                                    <option value="0">Selecciona una categoria...</option>
+                                    @foreach (var categoria in categorias)
+                                    {
+                                        <option value="@categoria.id_categoria">
+                                            @categoria.nombre
+                                        </option>
+                                    }
+                                </select>
+                                <ValidationMessage For="@(() => producto.id_categoria)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Proveedor</label>
+
+                                <select @bind="producto.id_proveedor"
+                                        class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface">
+                                    style="font-size: 0.85rem;">
+                                    <option value="0">Selecciona un proveedor...</option>
+                                    @foreach (var proveedor in proveedores)
+                                    {
+                                        <option value="@proveedor.id_proveedor">
+                                            @proveedor.nombre_empresa
+                                        </option>
+                                    }
+                                </select>
+                                <ValidationMessage For="@(() => producto.id_proveedor)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Precio de compra
+                                    ($)</label>
+                                    <div class="input-group input-group-sm">
+                                        <span
+                                        class="input-group-text rounded-start-pill border-melody-pink bg-melody-surface-high text-melody-primary fw-bold">$</span>
+                                        <input type="number" @bind="producto.precio_compra" step="0.01"
+                                               class="form-control rounded-end-pill border-melody-pink bg-melody-surface-low" placeholder="18.50">
+                                    </div>
+                                    <ValidationMessage For="@(() => producto.precio_compra)" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Precio de venta
+                                        ($)</label>
+                                        <div class="input-group input-group-sm">
+                                            <span
+                                            class="input-group-text rounded-start-pill border-melody-pink bg-melody-surface-high text-melody-primary fw-bold">$</span>
+                                            <input type="number" @bind="producto.precio_venta" step="0.01"
+                                                   class="form-control rounded-end-pill border-melody-pink bg-melody-surface-low" placeholder="18.50">
+                                        </div>
+                                        <ValidationMessage For="@(() => producto.precio_venta)" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Stock actual</label>
+                                        <input type="number" @bind="producto.stock_actual" min="0"
+                                               class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                               placeholder="50">
+                                        <ValidationMessage For="@(() => producto.stock_actual)" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Stock minimo</label>
+                                        <input type="number" @bind="producto.stock_minimo" min="0"
+                                               class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                               placeholder="50">
+                                        <ValidationMessage For="@(() => producto.stock_minimo)" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Descripción / Detalles del
+                                            Producto</label>
+                                            <textarea @bind="producto.descripcion"
+                                                      class="form-control rounded-3 border-melody-pink bg-melody-surface-low text-melody-on-surface p-2 px-3"
+                                                      rows="2" placeholder="Detalles de materiales, diseño, colección especial My Melody..."
+                                                      style="font-size: 0.85rem;"></textarea>
+                                            <ValidationMessage For="@(() => producto.descripcion)" />
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                            <button type="submit"
+                                                    class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                    style="background-color: #ff7096;">
+                                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                <span class="">Guardar Producto</span>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                </div>
+                                <div class="row g-4">
+                                    <!-- TARJETA GRANDE: 3/4 -->
+                                    <div class="col-lg-8">
+                                        <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+                                            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                                                         style="width: 38px; height: 38px;">
+                                                        <span class="material-symbols-outlined fs-5">add_box</span>
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                                                            <span class="">🍓 ActualizarProducto</span>
+                                                        </h3>
+                                                        <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos del producto
+                                                            para
+                                                            actualizarlo en el inventario kawaii</p>
+                                                        </div>
+                                                    </div>
+                                                    <span
+                                                        class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                                                        Catálogo Kawaii</span>
+                                                    </div>
+                                                    <EditForm Model="@producto" OnValidSubmit="UpdateProduct" class="row g-3">
+                                                        <DataAnnotationsValidator />
+                                                        <div class="col-md-3">
+                                                            <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione un
+                                                                producto</label>
+                                                                <select @bind="producto.id_producto" @bind:after="CargarProducto"
+                                                                        class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                                                        style="font-size: 0.85rem;">
+                                                                    <option value="0">Selecciona un producto...</option>
+                                                                    @foreach (var producto in productos)
+                                                                    {
+                                                                        <option value="@producto.id_producto">
+                                                                            @producto.nombre
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                                <p>ID seleccionado: @producto.id_producto</p>
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-md-3">
+                                                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Código de
+                                                                    barras</label>
+                                                                    <input type="text" @bind="producto.codigo_barras"
+                                                                           class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                                                           placeholder="MEL-0521">
+                                                                    <ValidationMessage For="@(() => producto.codigo_barras)" />
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Categoría</label>
+                                                                    <select @bind="producto.id_categoria"
+                                                                            class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                                                            style="font-size: 0.85rem;">
+                                                                        <option value="0">Selecciona una categoria...</option>
+                                                                        @foreach (var categoria in categorias)
+                                                                        {
+                                                                            <option value="@categoria.id_categoria">
+                                                                                @categoria.nombre
+                                                                            </option>
+                                                                        }
+                                                                    </select>
+
+                                                                    <ValidationMessage For="@(() => producto.id_categoria)" />
+                                                                    <p>ID seleccionado: @producto.id_categoria</p>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Proveedor</label>
+
+                                                                    <select @bind="producto.id_proveedor"
+                                                                            class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface">
+                                                                        style="font-size: 0.85rem;">
+                                                                        <option value="0">Selecciona un proveedor...</option>
+                                                                        @foreach (var proveedor in proveedores)
+                                                                        {
+                                                                            <option value="@proveedor.id_proveedor">
+                                                                                @proveedor.nombre_empresa
+                                                                            </option>
+                                                                        }
+                                                                    </select>
+                                                                    <ValidationMessage For="@(() => producto.id_proveedor)" />
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Precio de compra
+                                                                        ($)</label>
+                                                                        <div class="input-group input-group-sm">
+                                                                            <span
+                                                                            class="input-group-text rounded-start-pill border-melody-pink bg-melody-surface-high text-melody-primary fw-bold">$</span>
+                                                                            <input type="number" @bind="producto.precio_compra" step="0.01"
+                                                                                   class="form-control rounded-end-pill border-melody-pink bg-melody-surface-low"
+                                                                                   placeholder="18.50">
+                                                                            <ValidationMessage For="@(() => producto.precio_compra)" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Precio de venta
+                                                                            ($)</label>
+                                                                            <div class="input-group input-group-sm">
+                                                                                <span
+                                                                                class="input-group-text rounded-start-pill border-melody-pink bg-melody-surface-high text-melody-primary fw-bold">$</span>
+                                                                                <input type="number" @bind="producto.precio_venta" step="0.01"
+                                                                                       class="form-control rounded-end-pill border-melody-pink bg-melody-surface-low"
+                                                                                       placeholder="18.50">
+                                                                                <ValidationMessage For="@(() => producto.precio_venta)" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Stock
+                                                                                actual</label>
+                                                                                <input type="number" @bind="producto.stock_actual" min="0"
+                                                                                       class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                                                                       placeholder="50">
+                                                                                <ValidationMessage For="@(() => producto.stock_actual)" />
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Stock
+                                                                                    minimo</label>
+                                                                                    <input type="number" @bind="producto.stock_minimo" min="0"
+                                                                                           class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                                                                           placeholder="50">
+                                                                                    <ValidationMessage For="@(() => producto.stock_minimo)" />
+                                                                                </div>
+
+                                                                                <div class="col-12">
+                                                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Descripción /
+                                                                                        Detalles del
+                                                                                        Producto</label>
+                                                                                        <textarea @bind="producto.descripcion"
+                                                                                                  class="form-control rounded-3 border-melody-pink bg-melody-surface-low text-melody-on-surface p-2 px-3"
+                                                                                                  rows="2" placeholder="Detalles de materiales, diseño, colección especial My Melody..."
+                                                                                                  style="font-size: 0.85rem;"></textarea>
+                                                                                        <ValidationMessage For="@(() => producto.descripcion)" />
+                                                                                    </div>
+                                                                                    <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                                                                        <button type="submit"
+                                                                                                class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                                                                style="background-color: #ff7096;">
+                                                                                            <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                                                            <span class="">Guardar Producto</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </EditForm>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4">
+                                                                            <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+                                                                                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                                                                                    <div class="d-flex align-items-center gap-2">
+                                                                                        <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                                                                                             style="width: 38px; height: 38px;">
+                                                                                            <span class="material-symbols-outlined fs-5">add_box</span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                                                                                                <span class="">🍓 Eliminar Producto</span>
+                                                                                            </h3>
+                                                                                            <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos del producto
+                                                                                                para
+                                                                                                eliminarlo del inventario kawaii</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <span
+                                                                                            class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                                                                                            Catálogo Kawaii</span>
+                                                                                        </div>
+                                                                                        <EditForm Model="@producto" OnValidSubmit="DeleteProduct" class="row g-3">
+                                                                                            <div class="col-md-11">
+                                                                                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione un
+                                                                                                    producto</label>
+                                                                                                    <select @bind="idProductoEliminar" @bind:after="CargarProducto"
+                                                                                                            class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                                                                                            style="font-size: 0.85rem;">
+                                                                                                        <option value="0">Selecciona un producto...</option>
+                                                                                                        @foreach (var producto in productos)
+                                                                                                        {
+                                                                                                            <option value="@producto.id_producto">
+                                                                                                                @producto.nombre
+                                                                                                            </option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                    <p>ID seleccionado: @idProductoEliminar</p>
+                                                                                                </div>
+                                                                                                <br />
+                                                                                                <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                                                                                    <button type="submit"
+                                                                                                            class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                                                                            style="background-color: #ff7096;">
+                                                                                                        <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                                                                        <span class="">Guardar Producto</span>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </EditForm>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+
+@code {
+    private List<Producto> productos = new();
+    private List<Datos_Productos> datosproductos = new();
+    private Producto producto = new Producto();
+    private int idProductoEliminar = 0;
+    private List<Categorias> categorias = new();
+    private List<Proveedores> proveedores = new();
+    private List<ProductoAlertaStock> productosAlerta = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        datosproductos = await Http.GetFromJsonAsync<List<Datos_Productos>>("api/DataAccess/productosdatos")
+                    ?? new List<Datos_Productos>();
+        productos = await Http.GetFromJsonAsync<List<Producto>>("api/DataAccess/productos")
+            ?? new List<Producto>();
+        categorias = await Http.GetFromJsonAsync<List<Categorias>>("api/DataAccess/categorias") ?? new();
+
+        proveedores = await Http.GetFromJsonAsync<List<Proveedores>>("api/DataAccess/proveedores") ?? new();
+         productosAlerta = await Http.GetFromJsonAsync<List<ProductoAlertaStock>>(
+            "api/DataAccess/productos-alerta-stock"
+        ) ?? new();
+    }
+    private MovimientoRequest movimiento = new()
+    {
+        tipoMovimiento = "entrada",
+    };
+    private async Task RegistrarMovimiento()
+    {
+        if (movimiento.idProducto == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Producto no seleccionado",
+                Text = "Debes seleccionar un producto para registrar el movimiento",
+                Icon = SweetAlertIcon.Warning,
+                ConfirmButtonText = "Entendido"
+            });
+
+            return;
+        }
+        if (movimiento.cantidad <= 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Cantidad inválida",
+                Text = "Debes ingresar una cantidad mayor a 0.",
+                Icon = SweetAlertIcon.Warning,
+                ConfirmButtonText = "Entendido"
+            });
+
+            return;
+        }
+        var response = await Http.PostAsJsonAsync(
+    "api/DataAccess/movimiento", movimiento);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¡Movimiento registrado!",
+                Text = "La salida del producto se registró correctamente.",
+                Icon = SweetAlertIcon.Success,
+                ConfirmButtonText = "Aceptar"
+            });
+            productos = await Http.GetFromJsonAsync<List<Producto>>("api/DataAccess/productos")
+                ?? new List<Producto>();
+            datosproductos = await Http.GetFromJsonAsync<List<Datos_Productos>>("api/DataAccess/productosdatos")
+        ?? new List<Datos_Productos>();
+        }
+        else
+        {
+            // Obtener mensaje de error de la API
+            var mensajeError = await response.Content.ReadAsStringAsync();
+
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "No se pudo registrar",
+                Text = mensajeError,
+                Icon = SweetAlertIcon.Error,
+                ConfirmButtonText = "Aceptar"
+            });
+        }
+    }
+    private async Task CreationProduct()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync(
+        "api/DataAccess/productos", producto);
+            if (response.IsSuccessStatusCode)
+            {
+                producto = new Producto();
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Producto Registrado!",
+                    Text = "Tu producto fue guardado correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                productos = await Http.GetFromJsonAsync<List<Producto>>(
+    "api/DataAccess/productos"
+                ) ?? new List<Producto>();
+                datosproductos = await Http.GetFromJsonAsync<List<Datos_Productos>>("api/DataAccess/productosdatos")
+?? new List<Datos_Productos>();
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo registrar el producto.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error al registrar el producto: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private async Task DeleteProduct()
+    {
+        if (idProductoEliminar == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona un producto",
+                Text = "Debes seleccionar un producto antes de eliminarlo.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            var response = await Http.DeleteAsync($"api/DataAccess/deleteproduct/{idProductoEliminar}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Producto eliminado!",
+                    Text = "El producto fue eliminado correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                idProductoEliminar = 0;
+
+                datosproductos = await Http.GetFromJsonAsync<List<Datos_Productos>>(
+                    "api/DataAccess/productosdatos"
+                ) ?? new List<Datos_Productos>();
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo eliminar el producto.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private async Task UpdateProduct()
+    {
+        if (producto.id_producto == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona un producto",
+                Text = "Debes seleccionar un producto antes de actualizarlo.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            var response = await Http.PutAsJsonAsync(
+                $"api/DataAccess/updateproduct/{producto.id_producto}",
+                producto
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Producto actualizado!",
+                    Text = "Los cambios se guardaron correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+
+                datosproductos = await Http.GetFromJsonAsync<List<Datos_Productos>>(
+                    "api/DataAccess/productosdatos"
+                ) ?? new List<Datos_Productos>();
+                producto = new Producto();
+
+                productos = await Http.GetFromJsonAsync<List<Producto>>(
+                    "api/DataAccess/productos"
+                ) ?? new List<Producto>();
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo actualizar el producto.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private async Task CargarProducto()
+    {
+        if (producto.id_producto == 0)
+            return;
+
+        var response = await Http.GetAsync(
+            $"api/DataAccess/producto/{producto.id_producto}"
+        );
+
+        if (response.IsSuccessStatusCode)
+        {
+            var productoEncontrado = await response.Content.ReadFromJsonAsync<Producto>();
+
+            if (productoEncontrado != null)
+            {
+                producto = productoEncontrado;
+            }
+        }
+    }
+    public class MovimientoRequest
+    {
+        public int idProducto { get; set; }
+        public string tipoMovimiento { get; set; } = "";
+        public int cantidad { get; set; }
+    }
+    private void SeleccionarEntrada()
+    {
+        movimiento.tipoMovimiento = "entrada";
+    }
+
+    private void SeleccionarSalida()
+    {
+        movimiento.tipoMovimiento = "salida";
+    }
+
+    private void SeleccionarAjuste()
+    {
+        movimiento.tipoMovimiento = "ajuste";
+    }
+    
+    public class ProductoAlertaStock
+    {
+        public int id_producto { get; set; }
+        public string? nombre { get; set; }
+        public double stock_actual { get; set; }
+        public double stock_minimo { get; set; }
+        public string? estado { get; set; }
+    }
+}

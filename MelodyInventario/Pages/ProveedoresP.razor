@@ -1,0 +1,491 @@
+@page "/proveedores"
+@using MelodyInventario.Models
+@inject SweetAlertService Swal
+@inject HttpClient Http
+
+<div class="card border-0 rounded-4 shadow-soft p-4 mb-4 position-relative overflow-hidden"
+     style="background-color: var(--melody-surface-low);">
+    <!-- Ambient glowing circles -->
+    <div class="position-absolute rounded-circle"
+         style="top: -50px; right: -50px; width: 220px; height: 220px; background: rgba(255, 177, 193, 0.4); filter: blur(50px); pointer-events: none;">
+    </div>
+    <div class="position-absolute rounded-circle"
+         style="bottom: -60px; left: 35%; width: 260px; height: 260px; background: rgba(253, 222, 100, 0.25); filter: blur(60px); pointer-events: none;">
+    </div>
+    <div class="position-relative z-1 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+        <div class="d-flex flex-column flex-md-row align-items-center gap-4 text-center text-md-start">
+            <!-- Avatar Sticker -->
+            <div class="position-relative flex-shrink-0">
+                <div class="rounded-4 bg-white p-1 shadow-sm border border-2 border-melody-pink overflow-hidden d-flex align-items-center justify-content-center"
+                     style="width: 100px; height: 100px;">
+                    <img alt="My Melody Oficial" class="w-100 h-100 object-fit-cover rounded-3"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu-Wvk4CrEITPaPbu9pqFG9XPrneOwDgQktWmlXe6jMmxEBh3y6C4WwIVq6jyCm2a9sQPcfCtGJX2xmK0aBSLhD-30xGrbP5DO3sWVIOkOtRZjJ59OtpOga5jSKVX3GfOMaW88IT_OwVfYlf1nEP1gYnqdST32JFF83r8jjYERyvzw8eJOQ3V9XcMDOhMpgoAQP5nrY6RGoi3mFRKzGLHvnF42kSX6-HunNclbnp6sYduBQ0tbkN_3uYoW1_JcjMBgsw" />
+                </div>
+                <span
+                    class="position-absolute top-0 start-0 translate-middle-y badge rounded-pill bg-melody-primary-container text-white px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    🍓 My Melody
+                </span>
+                <span
+                    class="position-absolute bottom-0 end-0 translate-middle-y badge rounded-pill bg-melody-secondary-container text-melody-on-secondary-container px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    ✨ Mascota Oficial
+                </span>
+            </div>
+            <div>
+                <div class="d-inline-flex align-items-center gap-1 badge rounded-pill bg-melody-surface-highest text-melody-primary px-3 py-1 mb-2 text-uppercase fw-bold"
+                     style="font-size: 0.72rem; letter-spacing: 0.05rem;">
+                    <span class="material-symbols-outlined" style="font-size: 14px;">verified</span> Boutique Central •
+                    Almacén Verificado
+                </div>
+                <h1 class="fw-bolder mb-1 text-melody-on-surface d-flex align-items-center justify-content-center justify-content-md-start gap-2"
+                    style="font-size: 1.85rem;">
+                    <span>¡Hola Melody Admin!</span>
+                    <span class="text-melody-primary">🌸</span>
+                </h1>
+                <p class="text-melody-variant mb-0" style="font-size: 0.95rem;">
+                    Gestiona existencias de productos kawaii, actualiza entradas y salidas al instante con auditoría en
+                    tiempo real.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row g-4 align-items-start">
+    <!-- LEFT COLUMN: Inventory Catalog Table (col-lg-8) -->
+    <div class="col-12 col-lg-1">
+    </div>
+    <div class="col-12 col-lg-10">
+        <center><img src="Images/Melody-Tabla.png" class="img-MelodyTabla" /></center>
+        <div class="card border-0 rounded-4 bg-white shadow-soft overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-kawaii align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Descripción</th>
+                            <th class="text-center">Teléfono</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Dirección</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @foreach (var proveedor in proveedores)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @proveedor.nombre_empresa
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    @proveedor.contacto_nombre
+                                </td>
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @proveedor.telefono
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    @proveedor.email
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    @proveedor.direccion
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+        <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                 style="width: 38px; height: 38px;">
+                <span class="material-symbols-outlined fs-5">add_box</span>
+            </div>
+            <div>
+                <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                    <span class="">🍓 Registrar Nuevo Proveedor</span>
+                </h3>
+                <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos del proveedor para
+                    incorporarlo al inventario kawaii</p>
+                </div>
+            </div>
+            <span
+                class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                Catálogo Kawaii</span>
+            </div>
+            <EditForm Model="@proveedor" OnValidSubmit="CreationCategory" class="row g-3">
+                <DataAnnotationsValidator />
+                <div class="col-md-4">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre del
+                        proveedor</label>
+                        <input type="text" @bind="proveedor.nombre_empresa"
+                               class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                               placeholder="Ej: Diadema Orejitas de Felpa">
+                        <ValidationMessage For="@(() => proveedor.nombre_empresa)" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de el contacto</label>
+                            <input type="text" @bind="proveedor.contacto_nombre"
+                                   class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                   placeholder="Ej: Diadema Orejitas de Felpa">
+                            <ValidationMessage For="@(() => proveedor.contacto_nombre)" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Teléfono</label>
+                                <input type="text" @bind="proveedor.telefono"
+                                       class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                       placeholder="Ej: Diadema Orejitas de Felpa">
+                                <ValidationMessage For="@(() => proveedor.telefono)" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Email</label>
+                                    <input type="text" @bind="proveedor.email"
+                                           class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                           placeholder="Ej: Diadema Orejitas de Felpa">
+                                    <ValidationMessage For="@(() => proveedor.email)" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Direccion</label>
+                                        <input type="text" @bind="proveedor.direccion"
+                                               class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                               placeholder="Ej: Diadema Orejitas de Felpa">
+                                        <ValidationMessage For="@(() => proveedor.direccion)" />
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                        <button type="submit"
+                                                class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                style="background-color: #ff7096;">
+                                            <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                            <span class="">Guardar Proveedor</span>
+                                        </button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                            <div class="row g-4">
+    <!-- TARJETA GRANDE: 3/4 -->
+    <div class="col-lg-8">
+        <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                            style="width: 38px; height: 38px;">
+                        <span class="material-symbols-outlined fs-5">add_box</span>
+        </div>
+        <div>
+            <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                <span class="">🍓 ActualizarProveedor</span>
+            </h3>
+            <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos del proveedor
+                para
+                actualizarlo en el inventario kawaii</p>
+            </div>
+        </div>
+        <span
+            class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+            Catálogo Kawaii</span>
+        </div>
+        <EditForm Model="@proveedorActualizar" OnValidSubmit="UpdateProveedor" class="row g-3">
+            <DataAnnotationsValidator />
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione un
+                    producto</label>
+                    <select @bind="idProveedorActualizar" 
+                    @bind:after="CargarProveedorActualizar"
+                            class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                            style="font-size: 0.85rem;">
+                        <option value="0">Selecciona un proveedor...</option>
+                        @foreach (var pro in proveedores)
+                        {
+                            <option value="@pro.id_proveedor">
+                                @pro.nombre_empresa
+                            </option>
+                        }
+                    </select>
+                    <p>ID seleccionado: @idProveedorActualizar</p>
+                </div>
+                <br />
+                <div class="col-md-4">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="proveedorActualizar.nombre_empresa"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => proveedorActualizar.nombre_empresa)" />
+                    </div>
+                     <div class="col-md-4">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="proveedorActualizar.contacto_nombre"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => proveedorActualizar.contacto_nombre)" />
+                    </div>
+                    <div class="col-md-4">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="proveedorActualizar.telefono"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => proveedorActualizar.telefono)" />
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="proveedorActualizar.email"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => proveedorActualizar.email)" />
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="proveedorActualizar.direccion"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => proveedorActualizar.direccion)" />
+                    </div>
+                                        <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                            <button type="submit"
+                                                    class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                    style="background-color: #ff7096;">
+                                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                <span class="">Actualizar Proveedor</span>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                                                    style="width: 38px; height: 38px;">
+                                                <span class="material-symbols-outlined fs-5">add_box</span>
+                                            </div>
+                                            <div>
+                                                <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                                                    <span class="">🍓 Eliminar Proveedor</span>
+                                                </h3>
+                                                <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos de el proveedor
+                                                    para
+                                                    eliminarla del inventario kawaii</p>
+                                                </div>
+                                            </div>
+                                            <span
+                                                class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                                                Catálogo Kawaii</span>
+                                            </div>
+                                            <EditForm Model="@proveedor" OnValidSubmit="DeleteProveedor" class="row g-3">
+                                                <div class="col-md-11">
+                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione un proveedor</label>
+                                                        <select @bind="idProveedorEliminar"
+                                                                class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                                                style="font-size: 0.85rem;">
+                                                            <option value="0">Selecciona un proveedor...</option>
+                                                            @foreach (var prov in proveedores)
+                                                            {
+                                                                <option value="@prov.id_proveedor">
+                                                                    @prov.nombre_empresa
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                        <p>ID seleccionado: @idProveedorEliminar</p>
+                                                    </div>
+                                                    <br />
+                                                    <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                                        <button type="submit"
+                                                                class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                    style="background-color: #ff7096;">
+                                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                <span class="">Eliminar Proveedor</span>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                </div>
+                            </div>
+                        </div>
+@code {
+    private List<Proveedores> proveedores = new();
+    private Proveedores proveedor = new Proveedores();
+    private Proveedores proveedorActualizar = new Proveedores();
+     private int idProveedorActualizar = 0;
+    private int idProveedorEliminar = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        proveedores = await Http.GetFromJsonAsync<List<Proveedores>>("api/DataAccess/proveedores")
+         ?? new List<Proveedores>();
+    }
+    private async Task CreationCategory()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync(
+        "api/DataAccess/proveedores", proveedor);
+            if (response.IsSuccessStatusCode)
+            {
+                proveedor = new Proveedores();
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Proveedor Registrado!",
+                    Text = "El proveedor fue registrado correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                proveedores = await Http.GetFromJsonAsync<List<Proveedores>>("api/DataAccess/proveedores")
+ ?? new List<Proveedores>();
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo registrar el proveedor.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error al registrar el proveedor: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private async Task UpdateProveedor()
+    {
+        if (idProveedorActualizar == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona un proveedor",
+                Text = "Debes seleccionar un proveedor antes de actualizarlo.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            proveedorActualizar.id_proveedor = idProveedorActualizar;
+            var response = await Http.PutAsJsonAsync(
+                $"api/DataAccess/updateproveedor/{idProveedorActualizar}",
+                proveedorActualizar
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Proveedor actualizado!",
+                    Text = "Los cambios se guardaron correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+
+            proveedores = await Http.GetFromJsonAsync<List<Proveedores>>(
+                "api/DataAccess/proveedores")
+                ?? new List<Proveedores>();
+
+            // Limpiar formulario
+            proveedorActualizar = new Proveedores();
+            idProveedorActualizar = 0;
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo actualizar el proveedor.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private async Task DeleteProveedor()
+    {
+        if (idProveedorEliminar == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona un proveedor",
+                Text = "Debes seleccionar un proveedor antes de eliminarlo.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            var response = await Http.DeleteAsync($"api/DataAccess/deleteproveedor/{idProveedorEliminar}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Proveedor eliminado!",
+                    Text = "El proveedor fue eliminado correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                idProveedorEliminar = 0;
+                proveedores = await Http.GetFromJsonAsync<List<Proveedores>>(
+    "api/DataAccess/proveedores")
+    ?? new List<Proveedores>();
+
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo eliminar el proveedor.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+    private void CargarProveedorActualizar()
+{
+    if (idProveedorActualizar == 0)
+    {
+        proveedorActualizar = new Proveedores();
+        return;
+    }
+
+    var proveedorSeleccionado = proveedores
+        .FirstOrDefault(p => p.id_proveedor == idProveedorActualizar);
+
+    if (proveedorSeleccionado != null)
+    {
+        proveedorActualizar = new Proveedores
+        {
+            id_proveedor = proveedorSeleccionado.id_proveedor,
+            nombre_empresa = proveedorSeleccionado.nombre_empresa,
+            contacto_nombre = proveedorSeleccionado.contacto_nombre,
+            telefono = proveedorSeleccionado.telefono,
+            email = proveedorSeleccionado.email,
+            direccion = proveedorSeleccionado.direccion
+        };
+    }
+}
+
+}

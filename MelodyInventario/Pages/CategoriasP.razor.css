@@ -1,0 +1,105 @@
+:root {
+--melody-primary: #aa2f56;
+--melody-primary-container: #ff7096;
+--melody-on-primary-container: #720030;
+--melody-primary-fixed: #ffd9df;
+--melody-primary-fixed-dim: #ffb1c1;
+--melody-secondary: #705d00;
+--melody-secondary-container: #fdde64;
+--melody-on-secondary-container: #756100;
+--melody-tertiary: #bb152c;
+--melody-tertiary-container: #ffdad6;
+--melody-background: #fff7f9;
+--melody-surface: #fff7f9;
+--melody-surface-low: #ffeff8;
+--melody-surface-high: #f9e2f1;
+--melody-surface-highest: #f3dcec;
+--melody-surface-lowest: #ffffff;
+--melody-on-surface: #241822;
+--melody-on-surface-variant: #574145;
+--melody-outline: #8a7175;
+--melody-outline-variant: #ddbfc4;
+}
+.bg-melody-primary { background-color: #aa2f56 !important; }
+.bg-melody-primary-container { background-color: #ff7096 !important; }
+.bg-melody-surface-low { background-color: #ffeff8 !important; }
+.bg-melody-surface-high { background-color: #f9e2f1 !important; }
+.bg-melody-surface-highest { background-color: #f3dcec !important; }
+.bg-melody-surface-lowest { background-color: #ffffff !important; }
+.bg-melody-secondary-container { background-color: #fdde64 !important; }
+.bg-melody-tertiary-container { background-color: #ffdad6 !important; }
+
+.text-melody-primary { color: #aa2f56 !important; }
+.text-melody-on-primary-container { color: #720030 !important; }
+.text-melody-secondary { color: #705d00 !important; }
+.text-melody-on-secondary-container { color: #756100 !important; }
+.text-melody-tertiary { color: #bb152c !important; }
+.text-melody-variant { color: #574145 !important; }
+
+.border-melody-pink { border-color: rgba(255, 112, 150, 0.3) !important; }
+.border-melody-fixed { border-color: #ffd9df !important; }
+
+.rounded-4 { border-radius: 1.25rem !important; }
+.rounded-5 { border-radius: 2rem !important; }
+
+.shadow-soft {
+box-shadow: 0 4px 18px -2px rgba(255, 112, 150, 0.12);
+}
+.shadow-card-hover {
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.shadow-card-hover:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 24px -2px rgba(255, 112, 150, 0.2);
+}
+.table-kawaii th {
+background-color: #ffeff8 !important;
+color:  #574145 !important;
+font-size: 0.76rem;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+border-bottom: none;
+padding: 0.85rem 1rem;
+}
+.table-kawaii td {
+padding: 0.95rem 1rem;
+vertical-align: middle;
+border-color: rgba(249, 226, 241, 0.7);
+background-color: transparent;
+font-size: 0.88rem;
+}
+.table-kawaii tbody tr:hover td {
+background-color: rgba(255, 239, 248, 0.5) !important;
+}
+.img-MelodyTabla{
+    width: 250px; height: auto;
+}
+.movement-buttons {
+    display: flex;
+    width: 100%;
+    padding: 0.25rem;
+    background-color: #ffeff8;
+    border-radius: 50rem;
+}
+
+.movement-buttons input {
+    display: none;
+}
+
+.movement-buttons label {
+    flex: 1;
+    text-align: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 50rem;
+    font-weight: 700;
+    color: #574145;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.movement-buttons input:checked + label {
+    background-color: #ff7096;
+    color: white;
+    box-shadow: 0 2px 6px rgba(255, 112, 150, 0.3);
+}

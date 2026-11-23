@@ -1,0 +1,155 @@
+@page "/login"
+@layout LoginLayout
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@inject HttpClient Http
+
+@inject SweetAlertService Swal
+
+<body class="d-flex flex-column min-vh-100 justify-content-between p-3 p-md-4">
+  <!-- Adornos sutiles flotantes -->
+  <div aria-hidden="true" class="position-fixed top-0 start-0 p-4 opacity-50 pe-none fs-4">🌸</div>
+  <div aria-hidden="true" class="position-fixed top-0 end-0 p-4 opacity-50 pe-none fs-3">🍓</div>
+  <div aria-hidden="true" class="position-fixed bottom-0 start-0 p-4 opacity-50 pe-none fs-4">✨</div>
+  <div aria-hidden="true" class="position-fixed bottom-0 end-0 p-4 opacity-50 pe-none fs-3">🎀</div>
+
+  <!-- Contenedor Principal Más Ancho y Espacioso -->
+  <main class="container my-auto py-5 d-flex justify-content-center align-items-center" data-purpose="auth-container">
+    <div class="login-container-card p-4 p-md-5 mt-4">
+      <!-- Mascota auténtica de My Melody (con su fresita) asomándose encima -->
+      <div class="d-flex justify-content-center">
+        <div class="peeking-character text-center position-relative">
+          <img alt="My Melody con fresita" class="w-100 h-100 object-contain rounded-circle p-1 bg-white border-2"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Z7SFXlQFxLswhvMD4d_RKBWTVq7P7xEZzMTh3NdKczFkyjkmpEa2YgDKJFhUGjw-LICYpCkodD_l5XSFElPkWACYlozEpg7MaAiz-1gsT-uqWJ-AEh9qXkViCwkBBpEMELzu08H58lgS0YBAKGpsoJSKdwXwFwp8D9e3Qw7yMUr6ajbBdZodShpQpMMKxcBvsUHQNKzOgpXHiX9gKX79QYdIc0AGz0rNC7qLosmfDfAitMbsgqUMC6hd4tinZN1AHw"
+               style="border-color: #ffccd9;" />
+          <span class="position-absolute bottom-0 end-0 translate-middle-y badge rounded-pill shadow-sm"
+                style="background-color: #ff7096; font-size: 0.7rem; padding: 0.35rem 0.6rem;">
+            🍓 Kawaii
+          </span>
+        </div>
+      </div>
+      <!-- Encabezado de la Tarjeta -->
+      <div class="text-center mt-3 mb-4" data-purpose="login-header">
+        <div class="d-inline-flex align-items-center gap-1 mb-2 px-3 py-1 rounded-pill"
+             style="background-color: #fff0f5; border: 1px solid #ffd5e2;">
+          <span style="font-size: 0.85rem; color: #d84572; font-weight: 700;">
+            🌸 Boutique &amp; Almacén My Melody
+          </span>
+        </div>
+        <h1 class="h3 fw-bold mb-2" style="color: #3b2a33;">
+          ¡Bienvenida de vuelta! 🍓
+        </h1>
+        <p class="text-muted mb-0 mx-auto"
+           style="max-width: 460px; font-size: 0.92rem; line-height: 1.5; color: #7f6a75 !important;">
+          Ingresa tus credenciales para acceder al sistema de gestión e inventario kawaii en tiempo real.
+        </p>
+      </div>
+      <!-- Formulario de Login -->
+      <form data-purpose="login-form" id="melodyLoginForm" @onsubmit="IniciarSesion">
+        <!-- Campo: Usuario / Correo -->
+        <div class="mb-3" data-purpose="input-group-user">
+          <label class="form-label text-xs fw-bold text-uppercase ms-2 mb-1" for="usernameInput"
+                 style="color: #7a636f; letter-spacing: 0.5px;">
+            <i class="bi bi-person-heart me-1" style="color: #ff7096;"></i> Usuario o Correo
+          </label>
+          <div class="input-group input-group-kawaii">
+            <span class="input-group-text">
+              <i class="bi bi-envelope-heart-fill fs-5"></i>
+            </span>
+            <input @bind="login.usuario" class="form-control" placeholder="admin@mymelody.com" required=""
+                   type="text" />
+          </div>
+        </div>
+        <!-- Campo: Contraseña -->
+        <div class="mb-3" data-purpose="input-group-password">
+          <div class="d-flex justify-content-between align-items-center ms-2 mb-1">
+            <label class="form-label text-xs fw-bold text-uppercase mb-0" for="passwordInput"
+                   style="color: #7a636f; letter-spacing: 0.5px;">
+              <i class="bi bi-shield-lock-fill me-1" style="color: #ff7096;"></i> Contraseña
+            </label>
+          </div>
+          <div class="input-group input-group-kawaii">
+            <span class="input-group-text">
+              <i class="bi bi-key-fill fs-5"></i>
+            </span>
+            <input @bind="login.contraseña" class="form-control" id="passwordInput" placeholder="••••••••••••"
+                   required="" type="password" />
+            <button aria-label="Mostrar u ocultar contraseña" class="btn-toggle-eye" id="togglePasswordBtn"
+                    type="button">
+              <i class="bi bi-eye-slash fs-5" id="togglePasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Botón de Envío -->
+        <button class="btn btn-melody-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                data-purpose="submit-button" type="submit">
+          <i class="bi bi-box-arrow-in-right fs-5"></i>
+          <span>Ingresar al Almacén</span>
+        </button>
+      </form>
+    </div>
+  </main>
+</body>
+@code {
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JS.InvokeVoidAsync("loginInteractions");
+    }
+  }
+  private LoginRequest login = new();
+
+  private async Task IniciarSesion()
+  {
+          var response = await Http.PostAsJsonAsync(
+    "api/DataAccess/login", login);
+
+    if (response.IsSuccessStatusCode)
+    {
+      var resultado = await response.Content
+          .ReadFromJsonAsync<LoginResponse>();
+
+      if (resultado == null)
+        return;
+
+      if (resultado.rol == "ADMIN")
+      {
+        Navigation.NavigateTo("/productos");
+      }
+      else if (resultado.rol == "VENDEDOR")
+      {
+        Navigation.NavigateTo("/productosVendedor");
+      }
+      else if (resultado.rol == "ALMACENISTA")
+      {
+        Navigation.NavigateTo("/productosAlmacenista");
+      }
+    }
+    else
+    {
+      await Swal.FireAsync(new SweetAlertOptions
+      {
+        Title = "Error",
+        Text = "Usuario o contraseña incorrectos.",
+        Icon = SweetAlertIcon.Error,
+        ConfirmButtonText = "Aceptar"
+      });
+    }
+  }
+
+  public class LoginRequest
+  {
+    public string usuario { get; set; } = "";
+    public string contraseña { get; set; } = "";
+  }
+
+  public class LoginResponse
+  {
+    public bool exitoso { get; set; }
+    public string mensaje { get; set; } = "";
+    public string rol { get; set; } = "";
+  }
+
+}

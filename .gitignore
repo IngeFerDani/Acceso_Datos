@@ -1,0 +1,32 @@
+
+# Archivos generados por .NET
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+
+# Configuraciones con credenciales
+**/appsettings.json
+**/appsettings.*.json
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Certificados y claves privadas
+*.pfx
+*.p12
+*.key
+*.pem
+
+# Resultados de pruebas
+TestResults/

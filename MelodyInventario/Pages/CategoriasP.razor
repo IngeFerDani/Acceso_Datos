@@ -1,0 +1,440 @@
+@page "/categorias"
+@using MelodyInventario.Models
+@inject SweetAlertService Swal
+@inject HttpClient Http
+
+<div class="card border-0 rounded-4 shadow-soft p-4 mb-4 position-relative overflow-hidden"
+     style="background-color: var(--melody-surface-low);">
+    <!-- Ambient glowing circles -->
+    <div class="position-absolute rounded-circle"
+         style="top: -50px; right: -50px; width: 220px; height: 220px; background: rgba(255, 177, 193, 0.4); filter: blur(50px); pointer-events: none;">
+    </div>
+    <div class="position-absolute rounded-circle"
+         style="bottom: -60px; left: 35%; width: 260px; height: 260px; background: rgba(253, 222, 100, 0.25); filter: blur(60px); pointer-events: none;">
+    </div>
+    <div class="position-relative z-1 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+        <div class="d-flex flex-column flex-md-row align-items-center gap-4 text-center text-md-start">
+            <!-- Avatar Sticker -->
+            <div class="position-relative flex-shrink-0">
+                <div class="rounded-4 bg-white p-1 shadow-sm border border-2 border-melody-pink overflow-hidden d-flex align-items-center justify-content-center"
+                     style="width: 100px; height: 100px;">
+                    <img alt="My Melody Oficial" class="w-100 h-100 object-fit-cover rounded-3"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu-Wvk4CrEITPaPbu9pqFG9XPrneOwDgQktWmlXe6jMmxEBh3y6C4WwIVq6jyCm2a9sQPcfCtGJX2xmK0aBSLhD-30xGrbP5DO3sWVIOkOtRZjJ59OtpOga5jSKVX3GfOMaW88IT_OwVfYlf1nEP1gYnqdST32JFF83r8jjYERyvzw8eJOQ3V9XcMDOhMpgoAQP5nrY6RGoi3mFRKzGLHvnF42kSX6-HunNclbnp6sYduBQ0tbkN_3uYoW1_JcjMBgsw" />
+                </div>
+                <span
+                    class="position-absolute top-0 start-0 translate-middle-y badge rounded-pill bg-melody-primary-container text-white px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    🍓 My Melody
+                </span>
+                <span
+                    class="position-absolute bottom-0 end-0 translate-middle-y badge rounded-pill bg-melody-secondary-container text-melody-on-secondary-container px-2 py-1 shadow-sm"
+                    style="font-size: 10px;">
+                    ✨ Mascota Oficial
+                </span>
+            </div>
+            <div>
+                <div class="d-inline-flex align-items-center gap-1 badge rounded-pill bg-melody-surface-highest text-melody-primary px-3 py-1 mb-2 text-uppercase fw-bold"
+                     style="font-size: 0.72rem; letter-spacing: 0.05rem;">
+                    <span class="material-symbols-outlined" style="font-size: 14px;">verified</span> Boutique Central •
+                    Almacén Verificado
+                </div>
+                <h1 class="fw-bolder mb-1 text-melody-on-surface d-flex align-items-center justify-content-center justify-content-md-start gap-2"
+                    style="font-size: 1.85rem;">
+                    <span>¡Hola Melody Admin!</span>
+                    <span class="text-melody-primary">🌸</span>
+                </h1>
+                <p class="text-melody-variant mb-0" style="font-size: 0.95rem;">
+                    Gestiona existencias de productos kawaii, actualiza entradas y salidas al instante con auditoría en
+                    tiempo real.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row g-4 align-items-start">
+    <!-- LEFT COLUMN: Inventory Catalog Table (col-lg-8) -->
+    <div class="col-12 col-lg-2">
+    </div>
+    <div class="col-12 col-lg-8">
+        <center><img src="Images/Melody-Tabla.png" class="img-MelodyTabla" /></center>
+        <div class="card border-0 rounded-4 bg-white shadow-soft overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-kawaii align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @foreach (var categoria in categorias)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-melody-on-surface">
+                                    @categoria.nombre
+                                </td>
+                                <td class="text-center text-melody-on-primary-container">
+                                    @categoria.descripcion
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+        <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                 style="width: 38px; height: 38px;">
+                <span class="material-symbols-outlined fs-5">add_box</span>
+            </div>
+            <div>
+                <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                    <span class="">🍓 Registrar Nueva Categoría</span>
+                </h3>
+                <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos de la categoría para
+                    incorporarla al inventario kawaii</p>
+                </div>
+            </div>
+            <span
+                class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                Catálogo Kawaii</span>
+            </div>
+            <EditForm Model="@categoria" OnValidSubmit="CreationCategory" class="row g-3">
+                <DataAnnotationsValidator />
+                <div class="col-md-3">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la
+                        Categoría</label>
+                        <input type="text" @bind="categoria.nombre"
+                               class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                               placeholder="Ej: Diadema Orejitas de Felpa">
+                        <ValidationMessage For="@(() => categoria.nombre)" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Descripción / Detalles de
+                            la
+                            Categoría</label>
+                            <textarea @bind="categoria.descripcion"
+                                      class="form-control rounded-3 border-melody-pink bg-melody-surface-low text-melody-on-surface p-2 px-3"
+                                      rows="2" placeholder="Detalles de la categoría..." style="font-size: 0.85rem;"></textarea>
+                            <ValidationMessage For="@(() => categoria.descripcion)" />
+                        </div>
+                        <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                            <button type="submit"
+                                    class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                    style="background-color: #ff7096;">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                <span class="">Guardar Categoría</span>
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+<div class="row g-4">
+    <!-- TARJETA GRANDE: 3/4 -->
+    <div class="col-lg-8">
+        <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                            style="width: 38px; height: 38px;">
+                        <span class="material-symbols-outlined fs-5">add_box</span>
+        </div>
+        <div>
+            <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                <span class="">🍓 ActualizarCategoría</span>
+            </h3>
+            <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos de la categoría
+                para
+                actualizarla en el inventario kawaii</p>
+            </div>
+        </div>
+        <span
+            class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+            Catálogo Kawaii</span>
+        </div>
+        <EditForm Model="@categoriaActualizar" OnValidSubmit="UpdateCategory" class="row g-3">
+            <DataAnnotationsValidator />
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione un
+                    producto</label>
+                    <select @bind="idCategoriaActualizar" 
+                    @bind:after="CargarCategoriaActualizar"
+                            class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                            style="font-size: 0.85rem;">
+                        <option value="0">Selecciona una categoria...</option>
+                        @foreach (var categoria in categorias)
+                        {
+                            <option value="@categoria.id_categoria">
+                                @categoria.nombre
+                            </option>
+                        }
+                    </select>
+                    <p>ID seleccionado: @idCategoriaActualizar</p>
+                </div>
+                <br />
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Nombre de la Categoría</label>
+                        <input type="text" @bind="categoriaActualizar.nombre"
+                                class="form-control form-control-sm rounded-pill border-melody-pink bg-melody-surface-low px-3"
+                                placeholder="MEL-0521">
+                        <ValidationMessage For="@(() => categoriaActualizar.nombre)" />
+                    </div>
+                                  <div class="col-12">
+                                        <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">Descripción /
+                                            Detalles de la Categoría</label>
+                                            <textarea @bind="categoriaActualizar.descripcion"
+                                                        class="form-control rounded-3 border-melody-pink bg-melody-surface-low text-melody-on-surface p-2 px-3"
+                                                        rows="2" placeholder="Detalles de materiales, diseño, colección especial My Melody..."
+                                                        style="font-size: 0.85rem;"></textarea>
+                                            <ValidationMessage For="@(() => categoriaActualizar.descripcion)" />
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                            <button type="submit"
+                                                    class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                    style="background-color: #ff7096;">
+                                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                <span class="">Actualizar Categoría</span>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card border-0 rounded-4 shadow-sm mb-4 bg-white p-3 p-md-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-light-subtle">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle bg-melody-surface-low text-melody-primary d-flex align-items-center justify-content-center shadow-sm"
+                                                    style="width: 38px; height: 38px;">
+                                                <span class="material-symbols-outlined fs-5">add_box</span>
+                                            </div>
+                                            <div>
+                                                <h3 class="fs-5 fw-bold text-melody-on-surface mb-0 d-flex align-items-center gap-1">
+                                                    <span class="">🍓 Eliminar Categoría</span>
+                                                </h3>
+                                                <p class="text-melody-variant mb-0" style="font-size: 0.8rem;">Completa los datos de la categoría
+                                                    para
+                                                    eliminarla del inventario kawaii</p>
+                                                </div>
+                                            </div>
+                                            <span
+                                                class="badge rounded-pill bg-melody-surface-high text-melody-primary fw-bold px-3 py-1 d-none d-sm-inline-block">✨
+                                                Catálogo Kawaii</span>
+                                            </div>
+                                            <EditForm Model="@categoria" OnValidSubmit="DeleteCategory" class="row g-3">
+                                                <div class="col-md-11">
+                                                    <label class="form-label fw-bold text-melody-variant" style="font-size: 0.76rem;">seleecione una categoria</label>
+                                                        <select @bind="idCategoriaEliminar"
+                                                                class="form-select form-select-sm rounded-pill border-melody-pink bg-melody-surface-low text-melody-on-surface"
+                                                                style="font-size: 0.85rem;">
+                                                            <option value="0">Selecciona una categoría...</option>
+                                                            @foreach (var categoria in categorias)
+                                                            {
+                                                                <option value="@categoria.id_categoria">
+                                                                    @categoria.nombre
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                        <p>ID seleccionado: @idCategoriaEliminar</p>
+                                                    </div>
+                                                    <br />
+                                                    <div class="col-12 d-flex justify-content-end align-items-center gap-2 mt-3">
+                                                        <button type="submit"
+                                                                class="btn btn-sm text-white fw-bold rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-1 border-0"
+                                                    style="background-color: #ff7096;">
+                                                <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                                                <span class="">Eliminar Categoría</span>
+                                            </button>
+                                        </div>
+                                    </EditForm>
+                                </div>
+                            </div>
+                        </div>
+
+
+@code {
+    private List<Categorias> categorias = new();
+    private Categorias categoria = new Categorias();
+    private Categorias categoriaActualizar = new Categorias();
+     private int idCategoriaActualizar = 0;
+     private int idCategoriaEliminar = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        categorias = await Http.GetFromJsonAsync<List<Categorias>>("api/DataAccess/categorias")
+         ?? new List<Categorias>();
+    }
+    private async Task CreationCategory()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync(
+        "api/DataAccess/categorias", categoria);
+            if (response.IsSuccessStatusCode)
+            {
+                categoria = new Categorias();
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Categoría Registrada!",
+                    Text = "Tu categoría fue guardada correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                categorias = await Http.GetFromJsonAsync<List<Categorias>>("api/DataAccess/categorias")
+ ?? new List<Categorias>();
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo registrar la categoría.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error al registrar la categoría: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+ private async Task UpdateCategory()
+    {
+        if (idCategoriaActualizar == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona una categoría",
+                Text = "Debes seleccionar una categoría antes de actualizarla.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            categoriaActualizar.id_categoria = idCategoriaActualizar;
+            var response = await Http.PutAsJsonAsync(
+                $"api/DataAccess/updatecategory/{idCategoriaActualizar}",
+                categoriaActualizar
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Categoría actualizada!",
+                    Text = "Los cambios se guardaron correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+
+            categorias = await Http.GetFromJsonAsync<List<Categorias>>(
+                "api/DataAccess/categorias")
+                ?? new List<Categorias>();
+
+            // Limpiar formulario
+            categoriaActualizar = new Categorias();
+            idCategoriaActualizar = 0;
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo actualizar la categoría.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+   private async Task DeleteCategory()
+    {
+        if (idCategoriaEliminar == 0)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Selecciona una categoría",
+                Text = "Debes seleccionar una categoría antes de eliminarla.",
+                Icon = SweetAlertIcon.Warning
+            });
+
+            return;
+        }
+        try
+        {
+            var response = await Http.DeleteAsync($"api/DataAccess/deletecategory/{idCategoriaEliminar}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Categoría eliminada!",
+                    Text = "La categoría fue eliminada correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+                idCategoriaEliminar = 0;
+                categorias = await Http.GetFromJsonAsync<List<Categorias>>(
+    "api/DataAccess/categorias")
+    ?? new List<Categorias>();
+
+            }
+            else
+            {
+                await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = "No se pudo eliminar la categoría.",
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Error",
+                Text = $"Ocurrió un error: {ex.Message}",
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+private void CargarCategoriaActualizar()
+{
+    if (idCategoriaActualizar == 0)
+    {
+        categoriaActualizar = new Categorias();
+        return;
+    }
+
+    var categoriaSeleccionada = categorias
+        .FirstOrDefault(c => c.id_categoria == idCategoriaActualizar);
+
+    if (categoriaSeleccionada != null)
+    {
+        categoriaActualizar = new Categorias
+        {
+            id_categoria = categoriaSeleccionada.id_categoria,
+            nombre = categoriaSeleccionada.nombre,
+            descripcion = categoriaSeleccionada.descripcion
+        };
+    }
+}
+
+}
